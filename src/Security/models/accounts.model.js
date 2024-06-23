@@ -18,7 +18,7 @@ export const Accounts = connection.define("accounts", {
     },
     business_type: {
         type: DataTypes.ENUM,
-        values: ["Wholsesaler", "Retailer"],
+        values: ["Wholesaler", "Retailer"],
         allowNull: false
     },
     ref_code: {
@@ -42,11 +42,20 @@ export const Accounts = connection.define("accounts", {
         // allowNull: false
     },
     is_ref: {
-        type:DataTypes.BOOLEAN,
+        type: DataTypes.BOOLEAN,
         // allowNull: false
+    },
+    brand_img: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: false
 })
 
-Accounts.sync({ force: true });
+// Accounts.sync({ force: true });
