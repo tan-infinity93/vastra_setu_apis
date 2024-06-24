@@ -25,6 +25,10 @@ export const Products = connection.define("products", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    product_image: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     size: {
         type: DataTypes.STRING,
         allowNull: false

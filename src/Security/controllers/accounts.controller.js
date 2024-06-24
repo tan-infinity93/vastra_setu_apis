@@ -12,7 +12,6 @@ import {
 
 export const createAccountController = async (req, res) => {
     try {
-        console.log(req.file);
         const createAccountServiceResult = await createAccountService(req.body, req.file);
 
         return res.status(200).json({
@@ -53,7 +52,6 @@ export const getAccountController = async (req, res) => {
 }
 
 export const updateAccountController = async (req, res) => {
-    console.log(56, req.body);
     try {
         if (req.body.file) {
             const whereConditions = {
@@ -124,7 +122,7 @@ export const deleteAccountController = async (req, res) => {
 
 export const addProductsController = async (req, res) => {
     try {
-        const addProductsServiceResult = await addProductsService(req.body);
+        const addProductsServiceResult = await addProductsService(req.body, req.file);
 
         return res.status(200).json({
             message: addProductsServiceResult.message

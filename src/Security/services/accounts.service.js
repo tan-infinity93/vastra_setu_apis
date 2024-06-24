@@ -73,7 +73,6 @@ export const getAccountService = async (whereConditions) => {
 }
 
 export const updateAccountService = async (payload, whereConditions) => {
-    console.log(payload, whereConditions);
     try {
         const updateAccountQueryResult = await updateAccountQueryHandler(payload, whereConditions);
         console.log(updateAccountQueryResult);
@@ -120,13 +119,14 @@ export const deleteAccountService = async (whereConditions) => {
     }
 }
 
-export const addProductsService = async (payload) => {
+export const addProductsService = async (payload, file) => {
     try {
         if ("price" in payload) {
             payload["commission"] = 0.025 * payload["price"];
             payload["gst"] = 0.12 * payload["price"];
             payload["price"] = payload["price"] + payload["commission"] + payload["gst"];
-
+            payload["product_image"] = `uploads/${file.originalname}`;
+            
             const addProductsQueryResult = await addProductsQueryHandler(payload);
             console.log(addProductsQueryResult);
 

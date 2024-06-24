@@ -19,7 +19,7 @@ router.post("/createAccount", upload.single("brand_image"), createAccountControl
 router.post("/updateAccount", upload.single("brand_image"), updateAccountController);
 router.delete("/deleteAccount/:id", deleteAccountController);
 
-router.post("/addProduct", addProductsController);
+router.post("/addProduct", upload.single("product_image"), addProductsController);
 router.get("/getProducts/:account_id", getProductsController);
 router.get("/getProduct/:id/:account_id", getProductController);
 router.post("/updateProduct", upload.single("product_image"), updateProductController);
