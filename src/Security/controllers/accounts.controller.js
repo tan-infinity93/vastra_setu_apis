@@ -1,13 +1,8 @@
 import { 
     createAccountService,
     getAccountService,
-    addProductsService,
     updateAccountService,
-    deleteAccountService,
-    getProductsService,
-    getProductService,
-    updateProductService, 
-    deleteProductService
+    deleteAccountService
 } from "../services/accounts.service.js";
 
 export const createAccountController = async (req, res) => {
@@ -53,7 +48,7 @@ export const getAccountController = async (req, res) => {
 
 export const updateAccountController = async (req, res) => {
     try {
-        if (req.body.file) {
+        if (req.file) {
             const whereConditions = {
                 where: {
                     id: req.body.id
@@ -63,7 +58,7 @@ export const updateAccountController = async (req, res) => {
 
             const payload = {
                 ...req.body,
-                brand_image: req.body.file
+                brand_image: `uploads/${req.file.originalname}`
             }
 
             const updateAccountServiceResult = await updateAccountService(payload, whereConditions);
@@ -72,7 +67,7 @@ export const updateAccountController = async (req, res) => {
                 message: updateAccountServiceResult.message
             })
         }
-        else if (!req.body.file) {
+        else {
             const whereConditions = {
                 where: {
                     id: req.body.id
@@ -83,7 +78,6 @@ export const updateAccountController = async (req, res) => {
             const payload = req.body;
 
             const updateAccountServiceResult = await updateAccountService(payload, whereConditions);
-            console.log(updateAccountServiceResult);
 
             return res.status(200).json({
                 message: updateAccountServiceResult.message
@@ -110,117 +104,6 @@ export const deleteAccountController = async (req, res) => {
 
         return res.status(200).json({
             message: deleteAccountServiceResult.message
-        })
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: error
-        })
-    }
-}
-
-export const addProductsController = async (req, res) => {
-    try {
-        const addProductsServiceResult = await addProductsService(req.body, req.file);
-
-        return res.status(200).json({
-            message: addProductsServiceResult.message
-        })
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: error
-        })
-    }
-}
-
-export const getProductsController = async (req, res) => {
-    try {
-        const whereConditions = {
-            where: {
-                account_id: req.params.account_id
-            }
-        }
-
-        const getProductsServiceResult = await getProductsService(whereConditions);
-
-        return res.status(200).json({
-            data: getProductsServiceResult.data
-        })
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: error
-        })
-    }
-}
-
-export const getProductController = async (req, res) => {
-    try {
-        const whereConditions = {
-            where: {
-                id: req.params.id,
-                account_id: req.params.account_id
-            }
-        }
-
-        const getProductServiceResult = await getProductService(whereConditions);
-
-        return res.status(200).json({
-            data: getProductServiceResult.data
-        })
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: error
-        })
-    }
-}
-
-export const updateProductController = async (req, res) => {
-    try {
-        const whereConditions = {
-            where: {
-                id: req.body.id,
-                account_id: req.body.account_id
-            }
-        }
-
-        delete req.body.id;
-        delete req.body.account_id;
-        
-        const payload = req.body;
-
-        const updateProductServiceResult = await updateProductService(payload, whereConditions);
-
-        return res.status(200).json({
-            message: updateProductServiceResult.message
-        })
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: error
-        })
-    }
-}
-
-export const deleteProductController = async (req, res) => {
-    try {
-        const whereConditions = {
-            where: {
-                id: req.params.id
-            }
-        }
-
-        const deleteProductServiceResult = await deleteProductService(whereConditions);
-
-        return res.status(200).json({
-            message: deleteProductServiceResult.message
         })
     }
     catch (error) {
