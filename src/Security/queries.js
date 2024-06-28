@@ -22,6 +22,17 @@ export const getAccountQueryHandler = async (whereConditions) => {
     }
 }
 
+export const getAccountsByCityQueryHandler = async (whereConditions) => {
+    try {
+        const result = await Accounts.findAll(whereConditions);
+        return result;
+    }
+    catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
 export const updateAccountQueryHandler = async (payload, whereConditions) => {
     try {
         const result = await Accounts.update(payload, whereConditions);

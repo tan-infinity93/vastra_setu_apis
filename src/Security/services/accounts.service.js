@@ -1,6 +1,7 @@
 import { 
     createAccountQueryHandler,
     getAccountQueryHandler,
+    getAccountsByCityQueryHandler,
     updateAccountQueryHandler,
     deleteAccountQueryHandler
 } from "../queries.js";
@@ -56,6 +57,29 @@ export const getAccountService = async (whereConditions) => {
         else {
             return {
                 message: getAccountQueryResult
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return {
+            message: error
+        }
+    }
+}
+
+export const getAccountsByCityService = async (whereConditions) => {
+    try {
+        const getAccountsByCityQueryResult = await getAccountsByCityQueryHandler(whereConditions);
+
+        if (getAccountsByCityQueryResult.errors) {
+            return {
+                message: "Error. Try later."
+            }
+        }
+        else {
+            return {
+                message: getAccountsByCityQueryResult
             }
         }
     }

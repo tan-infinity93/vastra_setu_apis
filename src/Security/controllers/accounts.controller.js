@@ -1,6 +1,7 @@
 import { 
     createAccountService,
     getAccountService,
+    getAccountsByCityService,
     updateAccountService,
     deleteAccountService
 } from "../services/accounts.service.js";
@@ -36,6 +37,30 @@ export const getAccountController = async (req, res) => {
 
         return res.status(200).json({
             message: getAccountServiceResult.message
+        })
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: error
+        })
+    }
+}
+
+export const getAccountsByCityController = async (req, res) => {
+    try {
+        const city = req.params.city;
+
+        const whereConditions = {
+            where: {
+                city: city
+            }
+        }
+
+        const getAccountsByCityServiceResult = await getAccountsByCityService(whereConditions);
+
+        return res.status(200).json({
+            message: getAccountsByCityServiceResult.message
         })
     }
     catch (error) {

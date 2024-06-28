@@ -1,6 +1,8 @@
 import express from "express";
 import "dotenv/config";
 
+import { Orders } from "./Orders/orders.model.js";
+
 // Import routers
 import { accountsRouter } from "./Security/routes/accounts.routes.js";
 import { productsRouter } from "./Products/routes/products.routes.js";
