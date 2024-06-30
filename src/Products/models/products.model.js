@@ -21,6 +21,10 @@ export const Products = connection.define("products", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     product_type: {
         type: DataTypes.STRING,
         allowNull: false

@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
-import { connection } from "../config/database.js";
+import { connection } from "../../config/database.js";
 
 // Import models
-import { Accounts } from "../Security/models/accounts.model.js";
-import { Products } from "../Products/models/products.model.js";
+import { Accounts } from "../../Security/models/accounts.model.js";
+import { Products } from "../../Products/models/products.model.js";
 
 export const Orders = connection.define("orders", {
     id: {
@@ -24,6 +24,10 @@ export const Orders = connection.define("orders", {
             model: Products,
             key: "id"
         }
+    },
+    quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     seller: {
         type: DataTypes.STRING,
@@ -62,4 +66,4 @@ Products.hasMany(Orders, { foreignKey: "product_id" });
 Orders.belongsTo(Accounts, { foreignKey: "account_id" });
 Orders.belongsTo(Products, { foreignKey: "product_id" });
 
-Orders.sync({ force: true });
+// Orders.sync({ force: true });

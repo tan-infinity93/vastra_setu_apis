@@ -33,8 +33,6 @@ export const addProductsService = async (payload, file) => {
                 message: "Price not mentioned."
             }
         }
-
-
     }
     catch (error) {
         console.log(error);
