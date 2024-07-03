@@ -9,26 +9,23 @@ import { processRequest } from "../../config/processRequest.js";
 
 export const placeOrderService = async (payload) => {
     try {
-        // const getProduct = await processRequest("GET", "http://localhost:8000/api/products/getProduct/", {}, {
-        //     params: {
-        //         id: payload.product_id,
-        //         account_id: payload.account_id
-        //     }
-        // });
         const getProduct = await processRequest("GET", `http://localhost:8000/api/products/getProduct/${payload.product_id}/${payload.account_id}`);
-        console.log(16, getProduct);
+        console.log(16, getProduct.data);
 
-        const placeOrderQueryResult = await placeOrderQueryHandler(payload);
+        // const placeOrderQueryResult = await placeOrderQueryHandler(payload);
 
-        if (placeOrderQueryResult.errors) {
-            return {
-                message: "Error. Try later."
-            }
-        }
-        else {
-            return {
-                message: "Successful."
-            }
+        // if (placeOrderQueryResult.errors) {
+        //     return {
+        //         message: "Error. Try later."
+        //     }
+        // }
+        // else {
+        //     return {
+        //         message: "Successful."
+        //     }
+        // }
+        return {
+            message: "Successful"
         }
     }
     catch (error) {

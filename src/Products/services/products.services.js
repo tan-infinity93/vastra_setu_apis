@@ -11,7 +11,7 @@ export const addProductsService = async (payload, file) => {
         if ("price" in payload) {
             payload["commission"] = 0.025 * payload["price"];
             payload["gst"] = 0.12 * payload["price"];
-            payload["price"] = payload["price"] + payload["commission"] + payload["gst"];
+            payload["price"] = Number(payload["price"]) + payload["commission"] + payload["gst"];
             payload["product_image"] = `uploads/${file.originalname}`;
             
             const addProductsQueryResult = await addProductsQueryHandler(payload);
