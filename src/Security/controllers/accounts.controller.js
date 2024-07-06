@@ -1,6 +1,7 @@
 import { 
     createAccountService,
     getAccountService,
+    getAccountImageService,
     getAccountsByCityService,
     updateAccountService,
     deleteAccountService
@@ -38,6 +39,35 @@ export const getAccountController = async (req, res) => {
         return res.status(200).json({
             message: getAccountServiceResult.message
         })
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: error
+        })
+    }
+}
+
+export const getAccountImageController = async (req, res) => {
+    try {
+        const whereConditions = {
+            where: {
+                id: req.params.id
+            }
+        }
+
+        const getAccountImageServiceResult = await getAccountImageService(whereConditions);
+
+        if (getAccountImageServiceResult.status !== 200) {
+            return res.status(getAccountImageServiceResult.status).json({
+                error: getAccountImageServiceResult.error
+            })
+        }
+        else {
+            const file = getAccountImageServiceResult?.file?.split("/");
+
+            return res.status(getAccountImageServiceResult.status).sendFile(file[1], { root: file[0] });
+        }
     }
     catch (error) {
         console.log(error);
