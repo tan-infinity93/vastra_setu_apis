@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const processRequest = async(method, url, data = {}, headers = {}) => {
+export const processRequest = async(method, url, data, headers) => {
     try {
         const config = {
             method,
