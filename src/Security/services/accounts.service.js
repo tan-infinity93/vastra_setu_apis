@@ -1,3 +1,4 @@
+import fs from "fs/promises";
 import { 
     createAccountQueryHandler,
     getAccountQueryHandler,
@@ -64,6 +65,42 @@ export const getAccountService = async (whereConditions) => {
         console.log(error);
         return {
             message: error
+        }
+    }
+}
+
+export const getAccountImageService = async (whereConditions) => {
+    try {
+        const getAccountQueryHandlerResult = await getAccountQueryHandler(whereConditions);
+
+        if (getAccountQueryHandlerResult?.errors || getAccountQueryHandlerResult === null || getAccountQueryHandlerResult === undefined) {
+            return {
+                status: 400,
+                error: `Record for id ${whereConditions.where.id} absent.`
+            };
+        }
+        else {
+            const fileName = getAccountQueryHandlerResult.brand_img;
+
+            try {
+                await fs.access(fileName, fs.constants.F_OK);
+                return {
+                    status: 200,
+                    file: fileName
+                };
+            } 
+            catch (error) {
+                return {
+                    status: 400,
+                    error: error
+                };
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return {
+            error: error
         }
     }
 }
