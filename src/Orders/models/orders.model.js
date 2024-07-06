@@ -29,10 +29,6 @@ export const Orders = connection.define("orders", {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    seller: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     amount: {
         type: DataTypes.BIGINT,
         allowNull: false

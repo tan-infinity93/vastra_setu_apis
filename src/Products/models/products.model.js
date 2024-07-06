@@ -31,7 +31,7 @@ export const Products = connection.define("products", {
     },
     product_image: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     size: {
         type: DataTypes.STRING,

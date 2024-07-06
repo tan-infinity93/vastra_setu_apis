@@ -10,22 +10,37 @@ import { processRequest } from "../../config/processRequest.js";
 export const placeOrderService = async (payload) => {
     try {
         const getProduct = await processRequest("GET", `http://localhost:8000/api/products/getProduct/${payload.product_id}/${payload.account_id}`);
-        console.log(16, getProduct.data);
 
-        // const placeOrderQueryResult = await placeOrderQueryHandler(payload);
+        if (getProduct.data.quantity === 0) {
+            return {
+                message: "Product out of stock."
+            }
+        }
+        else if (getProduct.data.quantity - payload.quantity <= 0) {
+            return {
+                message: `Cannot proceed. Only ${getProduct.data.quantity} left is stock.`
+            }
+        }
+        else {
+            payload["amount"] = payload.quantity * getProduct.data.price;
 
-        // if (placeOrderQueryResult.errors) {
-        //     return {
-        //         message: "Error. Try later."
-        //     }
-        // }
-        // else {
-        //     return {
-        //         message: "Successful."
-        //     }
-        // }
-        return {
-            message: "Successful"
+            const placeOrderQueryResult = await placeOrderQueryHandler(payload);
+            await processRequest("POST", "http://localhost:8000/api/products/updateProduct", {
+                id: payload.product_id,
+                account_id: payload.account_id,
+                quantity: parseInt(getProduct.data.quantity) - payload.quantity
+            })
+
+            if (placeOrderQueryResult.errors) {
+                return {
+                    message: "Error. Try later."
+                }
+            }
+            else {
+                return {
+                    message: "Successful."
+                }
+            }
         }
     }
     catch (error) {
