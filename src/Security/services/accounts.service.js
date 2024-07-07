@@ -18,30 +18,31 @@ export const createAccountService = async (payload, file) => {
                 payload["brand_img"] = `uploads/${file.originalname}`;
 
                 const createAccountQueryResult = await createAccountQueryHandler(payload);
-                console.log(createAccountQueryResult);
-            
+                
                 if (createAccountQueryResult.errors) {
                     return {
-                        message: "Error. Try later."
+                        status: 400,
+                        error: createAccountQueryResult.errors ? createAccountQueryResult.errors[0].message : `Error. Try later.`
                     }
                 }
                 else {
                     return {
+                        status: 200,
                         message: "Successful."
                     }
                 }
             }
             else {
                 return {
-                    message: "GSTIN number incorrect."
+                    status: 400,
+                    error: "GSTIN number incorrect."
                 }
             }
         }
     }
     catch (error) {
-        console.log(error);
         return {
-            message: error
+            error: error
         }
     }
 }
@@ -49,22 +50,24 @@ export const createAccountService = async (payload, file) => {
 export const getAccountService = async (whereConditions) => {
     try {
         const getAccountQueryResult = await getAccountQueryHandler(whereConditions);
+        console.log(53, getAccountQueryResult);
 
-        if (getAccountQueryResult.errors) {
+        if (getAccountQueryResult === null || getAccountQueryResult === undefined) {
             return {
-                message: "Error. Try later."
+                status: 400,
+                error: `No record. ID: ${whereConditions.where.id}.`
             }
         }
         else {
             return {
-                message: getAccountQueryResult
+                status: 200,
+                data: getAccountQueryResult
             }
         }
     }
     catch (error) {
-        console.log(error);
         return {
-            message: error
+            error: error
         }
     }
 }
@@ -73,7 +76,7 @@ export const getAccountImageService = async (whereConditions) => {
     try {
         const getAccountQueryHandlerResult = await getAccountQueryHandler(whereConditions);
 
-        if (getAccountQueryHandlerResult?.errors || getAccountQueryHandlerResult === null || getAccountQueryHandlerResult === undefined) {
+        if (getAccountQueryHandlerResult === null || getAccountQueryHandlerResult === undefined) {
             return {
                 status: 400,
                 error: `Record for id ${whereConditions.where.id} absent.`
@@ -108,22 +111,24 @@ export const getAccountImageService = async (whereConditions) => {
 export const getAccountsByCityService = async (whereConditions) => {
     try {
         const getAccountsByCityQueryResult = await getAccountsByCityQueryHandler(whereConditions);
+        console.log(114, getAccountsByCityQueryResult);
 
-        if (getAccountsByCityQueryResult.errors) {
+        if (getAccountsByCityQueryResult.length === 0 || getAccountsByCityQueryResult === undefined || getAccountsByCityQueryResult === null) {
             return {
-                message: "Error. Try later."
+                status: 400,
+                error: `No data for city ${whereConditions.where.city}.`
             }
         }
         else {
             return {
-                message: getAccountsByCityQueryResult
+                status: 200,
+                data: getAccountsByCityQueryResult
             }
         }
     }
     catch (error) {
-        console.log(error);
         return {
-            message: error
+            error: error
         }
     }
 }
@@ -131,21 +136,22 @@ export const getAccountsByCityService = async (whereConditions) => {
 export const updateAccountService = async (payload, whereConditions) => {
     try {
         const updateAccountQueryResult = await updateAccountQueryHandler(payload, whereConditions);
-        console.log(updateAccountQueryResult);
+        console.log(updateAccountQueryResult[0]);
 
-        if (updateAccountQueryResult.errors) {
+        if (updateAccountQueryResult[0] === 0 || updateAccountQueryResult === null || updateAccountQueryResult === undefined) {
             return {
-                message: "Error. Try later."
+                status: 400,
+                error: updateAccountQueryResult.errors ? updateAccountQueryResult.errors[0].message : `Error. Try later.`
             }
         }
         else {
             return {
+                status: 200,
                 message: "Successful."
             }
         }
     }
     catch (error) {
-        console.log(error);
         return {
             message: error
         }
@@ -156,19 +162,20 @@ export const deleteAccountService = async (whereConditions) => {
     try {
         const deleteAccountQueryResult = await deleteAccountQueryHandler(whereConditions);
         
-        if (deleteAccountQueryResult.errors) {
+        if (!deleteAccountQueryResult || deleteAccountQueryResult.errors || deleteAccountQueryResult === null || deleteAccountQueryResult === undefined) {
             return {
-                message: "Error. Try later."
+                status: 400,
+                error: `No record. ID ${whereConditions.where.id}`
             }
         }
         else {
             return {
+                status: 200,
                 message: "Successful."
             }
         }
     }
     catch (error) {
-        console.log(error);
         return {
             message: error
         }

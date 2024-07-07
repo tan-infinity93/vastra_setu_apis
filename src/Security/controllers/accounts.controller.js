@@ -11,12 +11,18 @@ export const createAccountController = async (req, res) => {
     try {
         const createAccountServiceResult = await createAccountService(req.body, req.file);
 
-        return res.status(200).json({
-            message: createAccountServiceResult.message
-        })
+        if (createAccountServiceResult.status !== 200) {
+            return res.status(createAccountServiceResult.status).json({
+                error: createAccountServiceResult.error
+            })
+        }
+        else {
+            return res.status(createAccountServiceResult.status).json({
+                message: createAccountServiceResult.message
+            })
+        }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
             message: error
         })
@@ -36,14 +42,20 @@ export const getAccountController = async (req, res) => {
 
         const getAccountServiceResult = await getAccountService(whereConditions);
 
-        return res.status(200).json({
-            message: getAccountServiceResult.message
-        })
+        if (getAccountServiceResult.status !== 200) {
+            return res.status(getAccountServiceResult.status).json({
+                error: getAccountServiceResult.error
+            })
+        }
+        else {
+            return res.status(getAccountServiceResult.status).json({
+                data: getAccountServiceResult.data
+            })
+        }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
-            message: error
+            error: error
         })
     }
 }
@@ -89,14 +101,20 @@ export const getAccountsByCityController = async (req, res) => {
 
         const getAccountsByCityServiceResult = await getAccountsByCityService(whereConditions);
 
-        return res.status(200).json({
-            message: getAccountsByCityServiceResult.message
-        })
+        if (getAccountsByCityServiceResult.status !== 200) {
+            return res.status(getAccountsByCityServiceResult.status).json({
+                error: getAccountsByCityServiceResult.error
+            })
+        }
+        else {
+            return res.status(getAccountsByCityServiceResult.status).json({
+                data: getAccountsByCityServiceResult.data
+            })
+        }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
-            message: error
+            error: error
         })
     }
 }
@@ -118,9 +136,16 @@ export const updateAccountController = async (req, res) => {
 
             const updateAccountServiceResult = await updateAccountService(payload, whereConditions);
 
-            return res.status(200).json({
-                message: updateAccountServiceResult.message
-            })
+            if (updateAccountServiceResult.status !== 200) {
+                return res.status(updateAccountServiceResult.status).json({
+                    error: updateAccountServiceResult.error
+                })
+            }
+            else {
+                return res.status(updateAccountServiceResult.status).json({
+                    message: updateAccountServiceResult.message
+                })
+            }
         }
         else {
             const whereConditions = {
@@ -134,13 +159,19 @@ export const updateAccountController = async (req, res) => {
 
             const updateAccountServiceResult = await updateAccountService(payload, whereConditions);
 
-            return res.status(200).json({
-                message: updateAccountServiceResult.message
-            })
+            if (updateAccountServiceResult.status !== 200) {
+                return res.status(updateAccountServiceResult.status).json({
+                    error: updateAccountServiceResult.error
+                })
+            }
+            else {
+                return res.status(updateAccountServiceResult.status).json({
+                    message: updateAccountServiceResult.message
+                })
+            }
         }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
             message: error
         })
@@ -157,12 +188,18 @@ export const deleteAccountController = async (req, res) => {
 
         const deleteAccountServiceResult = await deleteAccountService(whereConditions);
 
-        return res.status(200).json({
-            message: deleteAccountServiceResult.message
-        })
+        if (deleteAccountServiceResult.status !== 200) {
+            return res.status(deleteAccountServiceResult.status).json({
+                error: deleteAccountServiceResult.error
+            })
+        }
+        else {
+            return res.status(deleteAccountServiceResult.status).json({
+                message: deleteAccountServiceResult.message
+            })
+        }
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
             message: error
         })

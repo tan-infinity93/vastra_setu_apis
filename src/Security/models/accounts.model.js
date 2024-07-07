@@ -11,6 +11,15 @@ export const Accounts = connection.define("accounts", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    owner_name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    business_pan: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
     phone: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -27,7 +36,8 @@ export const Accounts = connection.define("accounts", {
     },
     gst: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     city: {
         type: DataTypes.STRING,
@@ -35,20 +45,22 @@ export const Accounts = connection.define("accounts", {
     },
     original_amount: {
         type: DataTypes.INTEGER,
-        // allowedNull: false
     },
     ref_amount: {
         type: DataTypes.INTEGER,
-        // allowNull: false
     },
     is_ref: {
         type: DataTypes.BOOLEAN,
-        // allowNull: false
+        defaultValue: false
     },
     brand_img: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+    business_inception_date: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     isAdmin: {
         type: DataTypes.BOOLEAN,
